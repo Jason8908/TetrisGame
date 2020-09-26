@@ -19,16 +19,15 @@
 			//Creating the first block
 			let ran = Math.round(1 + Math.random() * 6);
 			//let block = new blocks[ran];
-			let block = new L;
+			let block = new L1;
 			block.update();
 			//Main game loop
 			setInterval(async () => {
 				console.log(block.rotation);
-				// if(!block.down()) {
-				// 	let ran = Math.round(1 + Math.random() * 6);
-				// 	block = new L;
-				// 	block.update();
-				// }
+				if(!block.down()) {
+					let ran = Math.round(1 + Math.random() * 6);
+					block.update();
+				};
 			}, 400);
 			//Key listeners
 			document.addEventListener('keydown', function(event) {
@@ -40,7 +39,7 @@
 			    }
 			    else if(event.key == "ArrowDown") {
 			    	if(!block.down()) {
-			    		block = new L;
+			    		block = new L1;
 			    		block.update();
 			    	}
 			    }

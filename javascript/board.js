@@ -1,7 +1,7 @@
 class Board {
 	constructor(width, height) {
 		this.width =+ width * 0.26;
-		this.height =+ height * 0.95;
+		this.height =+ height * 0.98;
 		this.winWidth = width;
 		this.winHeight = height;
 		this.board = null;
@@ -15,7 +15,7 @@ class Board {
 		this.board.style.position = 'fixed';
 		this.board.display = 'inline-block';
 		this.board.style.left = '35%';
-		this.board.style.top = '2%';
+		this.board.style.top = '1%';
 		this.board.style.overflow = 'hidden';
 		this.board.id = 'board';
 		//Table rows.
@@ -39,7 +39,7 @@ class Board {
 	resize(width, height) {
 		if(!this.board) return;
 		this.width =+ width * 0.26;
-		this.height =+ height * 0.95;
+		this.height =+ height * 0.98;
 		this.winWidth = width;
 		this.winHeight = height;
 		this.board = document.getElementById('board');
@@ -178,7 +178,10 @@ class L{
 				temp [3][1]--;
 				temp [3][0]--;
 				if(!this.checkRight(temp, true)) {
-					for(let i = 0; i < 4; i++) temp[i][1]--;
+					for(let x = 0; x < 2; x++) {
+						for(let i = 0; i < 4; i++) temp[i][1]--;
+						if(this.checkRight(temp, true)) break;
+					};
 					if(!this.checkLeft(temp, true)) {
 						for(let i = 0; i < 4; i++) temp[i][0]++;
 						if(this.checkLeft(temp, true) && this.checkRight(temp, true)) {
@@ -242,7 +245,6 @@ class L{
 				temp [2][0]+=2;
 				temp [3][1]++;
 				temp [3][0]++;
-				console.log('Yeet');
 				if(!this.checkLeft(temp, true)) {
 					for(let x = 0; x < 2; x++) {
 						for(let i = 0; i < 4; i++) temp[i][1]++;
@@ -289,6 +291,7 @@ class L1{
 	constructor() {
 		this.coords = [[0, 4], [1, 4], [2, 4], [2, 3]];
 		this.active = true;
+		this.rotation = 1;
 	}
 	down() {
 		let y = this.coords.map(y => y[0]);
@@ -348,32 +351,184 @@ class L1{
 			box.classList.remove('on');
 		};
 	}
-	checkY() {
-		let y = this.coords.map(y => y[0]+1);
-		for(let i = 0; i < y.length; i++) if (y[i] > 19) return false;
-		for(let i = 0; i < this.coords.length; i++) {
-			let box = document.getElementById(`${this.coords[i][0]+1}-${this.coords[i][1]}`);
-			if(box.classList.contains('placed')) return false;
+	checkY(coords, rotate) {
+		if(!coords) coords = this.coords;
+		let y = coords.map(y => y[0]);
+		for(let i = 0; i < y.length; i++) if (y[i] >= 19) {
+			if(!rotate) return false;
+			if(y[i] > 19) return false;
+		};
+		for(let i = 0; i < coords.length; i++) {
+			for(let x = 0; x < 2; x++) {
+				if(x > 0 && rotate) continue;
+				let box = document.getElementById(`${coords[i][0]+x}-${coords[i][1]}`);
+				if(box) if(box.classList.contains('placed')) return false;
+			};
 		};
 		return true;
 	}
-	checkRight() {
-		let x = this.coords.map(x => x[1]);
-		for(let i = 0; i < x.length; i++) if (x[i] >= 9) return false;
-		for(let i = 0; i < this.coords.length; i++) {
-			let box = document.getElementById(`${this.coords[i][0]}-${this.coords[i][1]+1}`);
-			if(box.classList.contains('placed')) return false;
+	checkRight(coords, rotate) {
+		if(!coords) coords = this.coords;
+		let x = coords.map(x => x[1]);
+		for(let i = 0; i < x.length; i++) if (x[i] >= 9) {
+			if(!rotate) return false;
+			if(x[i] > 9) return false;
+		};
+		for(let i = 0; i < coords.length; i++) {
+			for(let x = 0; x < 2; x++) {
+				if(x > 0 && rotate) continue;
+				let box = document.getElementById(`${coords[i][0]}-${coords[i][1]+x}`);
+				if(box) if(box.classList.contains('placed')) return false;
+			};
 		};
 		return true;
 	}
-	checkLeft() {
-		let x = this.coords.map(x => x[1]);
-		for(let i = 0; i < x.length; i++) if (x[i] <= 0) return false;
-		for(let i = 0; i < this.coords.length; i++) {
-			let box = document.getElementById(`${this.coords[i][0]}-${this.coords[i][1]-1}`);
-			if(box.classList.contains('placed')) return false;
+	checkLeft(coords, rotate) {
+		if(!coords) coords = this.coords;
+		let x = coords.map(x => x[1]);
+		for(let i = 0; i < x.length; i++) if (x[i] <= 0) {
+			if(!rotate) return false;
+			if(x[i] < 0) return false;
+		};
+		for(let i = 0; i < coords.length; i++) {
+			for(let x = 0; x < 2; x++) {
+				if(x > 0 && rotate) continue;
+				let box = document.getElementById(`${coords[i][0]}-${coords[i][1]-x}`);
+				if(box) if(box.classList.contains('placed')) return false;
+			};
 		};
 		return true;
+	}
+	rRight() {
+		switch(this.rotation) {
+			case 1:
+				this.remove();
+				//block movements
+				var temp = [[],[],[],[]];
+				for(let i = 0; i < this.coords.length;i++) {
+					for(let x = 0; x < this.coords[i].length; x++) {
+						temp[i][x] = this.coords[i][x];
+					};
+				};
+				temp [0][0]+=2;
+				temp [1][0]++;
+				temp [1][1]--;
+				temp [2][1]-=2;
+				temp [3][1]--;
+				temp [3][0]--;
+				if(!this.checkLeft(temp, true)) {
+					for(let x = 0; x < 2; x++) {
+						for(let i = 0; i < 4; i++) temp[i][1]++;
+						if(this.checkLeft(temp, true)) break;
+					};
+					if(!this.checkRight(temp, true)) {
+						for(let i = 0; i < 4; i++) temp[i][0]--;
+						if(this.checkLeft(temp, true) && this.checkRight(temp, true)) {
+							this.rotation ++;
+							this.coords = temp;
+						};
+					}
+					else {
+						this.coords = temp;
+						this.rotation ++;
+					};					
+				}
+				else {
+					this.coords = temp;
+					this.rotation ++;
+				};
+				this.update();
+			break;
+			case 2:
+				this.remove();
+				//block movements
+				var temp = [[],[],[],[]];
+				for(let i = 0; i < this.coords.length;i++) {
+					for(let x = 0; x < this.coords[i].length; x++) {
+						temp[i][x] = this.coords[i][x];
+					};
+				};
+				temp[0][1]-=2;
+				temp[1][1]--;
+				temp[1][0]--;
+				temp[2][0]-=2;
+				temp[3][0]--;
+				temp[3][1]++;
+				this.coords = temp;
+				this.rotation++;		
+				this.update();
+			break;
+			case 3:
+				this.remove();
+				//block movements
+				var temp = [[],[],[],[]];
+				for(let i = 0; i < this.coords.length;i++) {
+					for(let x = 0; x < this.coords[i].length; x++) {
+						temp[i][x] = this.coords[i][x];
+					};
+				};
+				temp [0][0]-=2;
+				temp [1][0]--;
+				temp [1][1]++;
+				temp [2][1]+=2;
+				temp [3][0]++;
+				temp [3][1]++;
+				if(!this.checkRight(temp, true)) {
+					for(let x = 0; x < 2; x++) {
+						for(let i = 0; i < 4; i++) temp[i][1]--;
+						if(this.checkRight(temp, true)) break;
+					};
+					if(!this.checkLeft(temp, true)) {
+						for(let i = 0; i < 4; i++) temp[i][0]++;
+						if(this.checkLeft(temp, true) && this.checkRight(temp, true)) {
+							this.rotation ++;
+							this.coords = temp;
+						};
+					}
+					else {
+						this.coords = temp;
+						this.rotation ++;
+					};					
+				}
+				else {
+					this.coords = temp;
+					this.rotation ++;
+				};
+				//updating blocks
+				this.update();
+			break;
+			case 4:
+				this.remove();
+				//block movements
+				var temp = [[],[],[],[]];
+				for(let i = 0; i < this.coords.length;i++) {
+					for(let x = 0; x < this.coords[i].length; x++) {
+						temp[i][x] = this.coords[i][x];
+					};
+				};
+				temp [0][1]+=2;
+				temp [1][0]++;
+				temp [1][1]++;
+				temp [2][0]+=2;
+				temp [3][0]++;
+				temp [3][1]--;
+				//updating blocks
+				if(!this.checkY(temp, true)) {
+					for(let i = 0; i < 4; i++) temp[i][0]--;
+					if(this.checkLeft(temp, true) && this.checkRight(temp, true)) {
+						this.coords = temp;
+						this.rotation++;
+					};
+				}
+				else {
+					this.coords = temp;
+					this.rotation++;
+				}
+				this.update();
+				this.rotation = 1;
+			break;
+			
+		};
 	}
 }
 
