@@ -114,12 +114,16 @@ class L{
 	}
 	checkY(coords, rotate) {
 		if(!coords) coords = this.coords;
-		let y = coords.map(y => y[0]+1);
-		for(let i = 0; i < y.length; i++) if (y[i] > 19) return false;
+		let y = coords.map(y => y[0]);
+		for(let i = 0; i < y.length; i++) if (y[i] >= 19) {
+			if(!rotate) return false;
+			if(y[i] > 19) return false;
+		};
 		for(let i = 0; i < coords.length; i++) {
 			for(let x = 0; x < 2; x++) {
+				if(x > 0 && rotate) continue;
 				let box = document.getElementById(`${coords[i][0]+x}-${coords[i][1]}`);
-				if(box.classList.contains('placed')) return false;
+				if(box) if(box.classList.contains('placed')) return false;
 			};
 		};
 		return true;
@@ -133,6 +137,7 @@ class L{
 		};
 		for(let i = 0; i < coords.length; i++) {
 			for(let x = 0; x < 2; x++) {
+				if(x > 0 && rotate) continue;
 				let box = document.getElementById(`${coords[i][0]}-${coords[i][1]+x}`);
 				if(box) if(box.classList.contains('placed')) return false;
 			};
@@ -148,6 +153,7 @@ class L{
 		};
 		for(let i = 0; i < coords.length; i++) {
 			for(let x = 0; x < 2; x++) {
+				if(x > 0 && rotate) continue;
 				let box = document.getElementById(`${coords[i][0]}-${coords[i][1]-x}`);
 				if(box) if(box.classList.contains('placed')) return false;
 			};
@@ -159,28 +165,48 @@ class L{
 			case 1:
 				this.remove();
 				//block movements
-				var temp = this.coords;
+				var temp = [[],[],[],[]];
+				for(let i = 0; i < this.coords.length;i++) {
+					for(let x = 0; x < this.coords[i].length; x++) {
+						temp[i][x] = this.coords[i][x];
+					};
+				};
 				temp [0][1]+=2;
 				temp [1][0]--;
 				temp [1][1]++;
 				temp [2][0]-=2;
 				temp [3][1]--;
 				temp [3][0]--;
-				//updating blocks
 				if(!this.checkRight(temp, true)) {
 					for(let i = 0; i < 4; i++) temp[i][1]--;
 					if(!this.checkLeft(temp, true)) {
-						for(let i = 0; i < 4; i++) temp[i][0]--;
-						if(this.checkLeft(temp, true) && this.checkRight(temp, true)) this.coords = temp;
-					};
+						for(let i = 0; i < 4; i++) temp[i][0]++;
+						if(this.checkLeft(temp, true) && this.checkRight(temp, true)) {
+							this.rotation ++;
+							this.coords = temp;
+						};
+					}
+					else {
+						this.coords = temp;
+						this.rotation ++;
+					};					
+				}
+				else {
+					this.coords = temp;
+					this.rotation ++;
 				};
+				//updating blocks
 				this.update();
-				this.rotation++;
 			break;
 			case 2:
 				this.remove();
 				//block movements
-				var temp = this.coords;
+				var temp = [[],[],[],[]];
+				for(let i = 0; i < this.coords.length;i++) {
+					for(let x = 0; x < this.coords[i].length; x++) {
+						temp[i][x] = this.coords[i][x];
+					};
+				};
 				temp[0][0]+=2;
 				temp[1][0]++;
 				temp[1][1]++;
@@ -190,10 +216,16 @@ class L{
 				//updating blocks
 				if(!this.checkY(temp, true)) {
 					for(let i = 0; i < 4; i++) temp[i][0]--;
-					if(this.checkLeft(temp, true) && this.checkRight(temp, true) && this.checkY(temp, true)) this.coords = temp;
-				}				
+					if(this.checkLeft(temp, true) && this.checkRight(temp, true)) {
+						this.coords = temp;
+						this.rotation++;
+					};
+				}
+				else {
+					this.coords = temp;
+					this.rotation++;
+				}		
 				this.update();
-				this.rotation++;
 			break;
 			case 3:
 				this.remove();
@@ -210,8 +242,12 @@ class L{
 				temp [2][0]+=2;
 				temp [3][1]++;
 				temp [3][0]++;
+				console.log('Yeet');
 				if(!this.checkLeft(temp, true)) {
-					for(let i = 0; i < 4; i++) temp[i][1]++;
+					for(let x = 0; x < 2; x++) {
+						for(let i = 0; i < 4; i++) temp[i][1]++;
+						if(this.checkLeft(temp, true)) break;
+					};
 					if(!this.checkRight(temp, true)) {
 						for(let i = 0; i < 4; i++) temp[i][0]--;
 						if(this.checkLeft(temp, true) && this.checkRight(temp, true)) {

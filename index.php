@@ -23,6 +23,7 @@
 			block.update();
 			//Main game loop
 			setInterval(async () => {
+				console.log(block.rotation);
 				// if(!block.down()) {
 				// 	let ran = Math.round(1 + Math.random() * 6);
 				// 	block = new L;
