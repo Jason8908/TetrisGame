@@ -4,9 +4,71 @@ td, tr {
 }
 #play {
 	display: block;
-	length: 10%;
-	width: 10%;
+	font-family: cursive;
 	margin-left: 44%;
 	margin-top: 15%;
 	cursor: pointer;
+	-webkit-text-stroke: 3px #E1E1E1;
+	font-size: 6em;
+}
+#score {
+	display: inline-block;
+	font-family: cursive;
+	margin-left: 56.5%;
+	margin-top: 1.6%;
+	-webkit-text-stroke: 3px #E1E1E1;
+	font-size: 3.5em;
+}
+#nextTitle {
+	display: inline-block;
+	font-family: cursive;
+	margin-left: 56.5%;
+	margin-top: 1.6%;
+	-webkit-text-stroke: 3px #E1E1E1;
+	font-size: 3em;
+}
+img {
+	display: inline-block;
+	float: right;
+}
+#next {
+	display: block;
+	margin-right: 35%;
+	margin-top: 0;
+}
+#gameOverTxt {
+	position: fixed;
+	font-family: cursive;
+	margin-left: 30%;
+	margin-top: -35%;
+	-webkit-text-stroke: 3px #E1E1E1;
+	font-size: 5em;
+	cursor: default;
+}
+#gameOverTxt {
+	position: fixed;
+	font-family: cursive;
+	margin-left: 30%;
+	margin-top: -35%;
+	-webkit-text-stroke: 3px #E1E1E1;
+	font-size: 5em;
+	cursor: default;
+}
+#playAgain {
+	position: fixed;
+	font-family: cursive;
+	margin-left: 30%;
+	margin-top: -35%;
+	-webkit-text-stroke: 3px #E1E1E1;
+	font-size: 5em;
+	cursor: default;
+}
+#playAgain:hover {
+	position: fixed;
+	font-family: cursive;
+	margin-left: 30%;
+	margin-top: -35%;
+	-webkit-text-stroke: 3px #E1E1E1;
+	font-size: 5em;
+	cursor: default;
 }
