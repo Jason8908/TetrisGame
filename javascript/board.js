@@ -11,6 +11,8 @@ class Board {
 		this.score = 0;
 		this.queue = [];
 		this.active = true;
+		this.held = null;
+		this.ableHold = true;
 	}
 	create() {
 		let game = document.getElementById('game');
@@ -49,14 +51,23 @@ class Board {
 		let scoreTitle = document.createElement('h1');
 		scoreTitle.id = 'score';
 		scoreTitle.innerHTML = '0'; 
-		//Creating Score
-		let nextTitle = document.createElement('h1');
-		nextTitle.id = 'nextTitle';
-		nextTitle.innerHTML = 'Up Next'; 
+		
+		//Creating held
+		let heldTitle = document.createElement('h1');
+		heldTitle.id = 'heldTitle';
+		heldTitle.innerHTML = 'Hold'; 
+		//Held Image.
+		let held = document.createElement('img');
+		held.id = 'held';
+		//Help Div
+		let heldDiv = document.createElement('div');
+		heldDiv.id = 'heldDiv';
+		heldDiv.appendChild(heldTitle);
+		heldDiv.appendChild(held);
 		//Appending the table to the body.
+		game.appendChild(heldDiv);
 		game.appendChild(this.board);
 		game.appendChild(scoreTitle);
-		game.appendChild(nextTitle);
 	}
 	resize(width, height) {
 		if(!this.board) return;
@@ -139,8 +150,16 @@ class Board {
 			if(this.queue.length > 1) if(this.queue.includes(blocks[ran])) continue;
 			this.queue.push(blocks[ran]);
 		};
+		//Getting game board
 		let game = document.getElementById('game');
 		let div = document.createElement('div');
+		//Creating next
+		let nextTitle = document.createElement('h1');
+		nextTitle.id = 'nextTitle';
+		nextTitle.innerHTML = 'Up Next'; 
+		//Apending Next.
+		div.appendChild(nextTitle);
+		//Filling with images.
 		for(let i = 0; i < 3; i++) {
 			let image = document.createElement('img');
 			image.id = `block${i}`;
@@ -188,6 +207,25 @@ class Board {
 		//Appending text.
 		game.appendChild(text);
 	}
+	toggleHold(block) {
+		let blocks = [L, L1, S, S1, T, I, SQ];
+		let images = ['l.PNG', 'l1.PNG', 's.PNG', 's1.PNG', 't.PNG', 'i.PNG', 'sq.PNG']; 
+		if(!this.held) {
+			this.held = blocks[block.order];
+			let path = `images/${images[block.order]}`;
+			let img = document.getElementById('held');
+			img.src = path;
+			this.ableHold = false;
+			return -1;
+		};
+		let val = this.held;
+		this.held = blocks[block.order];
+		let path = `images/${images[block.order]}`;
+		let img = document.getElementById('held');
+		img.src = path;
+		this.ableHold = false;
+		return blocks.indexOf(val);
+	}
 }
 
 class L{
@@ -196,6 +234,7 @@ class L{
 		this.active = true;
 		this.rotation = 1;
 		this.colour = 'orange';
+		this.order = 0;
 	}
 	down() {
 		let y = this.coords.map(y => y[0]);
@@ -442,6 +481,7 @@ class L1{
 		this.active = true;
 		this.rotation = 1;
 		this.colour = 'blue';
+		this.order = 1;
 	}
 	down() {
 		let y = this.coords.map(y => y[0]);
@@ -693,6 +733,7 @@ class I{
 		this.active = true;
 		this.rotation = 1;
 		this.colour = 'cyan';
+		this.order = 5;
 	}
 	down() {
 		let y = this.coords.map(y => y[0]);
@@ -993,6 +1034,7 @@ class SQ{
 		this.active = true;
 		this.rotation = 1;
 		this.colour = 'yellow';
+		this.order = 6;
 	}
 	down() {
 		let y = this.coords.map(y => y[0]);
@@ -1117,6 +1159,7 @@ class T{
 		this.active = true;
 		this.rotation = 1;
 		this.colour = 'purple';
+		this.order = 4;
 	}
 	down() {
 		let y = this.coords.map(y => y[0]);
@@ -1416,6 +1459,7 @@ class S{
 		this.active = true;
 		this.rotation = 1;
 		this.colour = 'lime';
+		this.order = 2;
 	}
 	down() {
 		let y = this.coords.map(y => y[0]);
@@ -1711,6 +1755,7 @@ class S1{
 		this.active = true;
 		this.rotation = 1;
 		this.colour = 'red';
+		this.order = 3;
 	}
 	down() {
 		let y = this.coords.map(y => y[0]);

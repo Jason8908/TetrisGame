@@ -29,6 +29,7 @@
 				if(!block.down()) {
 				 	let sound = new Audio('music/place.mp3');
 			    	sound.play();
+			    	board.ableHold = true;
 			    	//Updating board array.
 			    	board.updateArr(block.coords, block.colour);
 			    	//Checking for line clear.
@@ -72,9 +73,6 @@
 				 };
 			}, 800);
 			//Key listeners
-			function events(event) {
-
-			}
 			document.addEventListener('keydown', function(event) {
 			    if(event.key == "ArrowLeft") {
 			    	if(!board.active) return false;
@@ -89,6 +87,7 @@
 			    	if(!block.down()) {
 			    		let sound = new Audio('music/place.mp3');
 			    		sound.play();
+			    		board.ableHold = true;
 			    		//Updating board array.
 				    	board.updateArr(block.coords, block.colour);
 				    	//Checking for line clear.
@@ -134,6 +133,44 @@
 			    else if(event.key == "x") {
 			    	if(!board.active) return false;
 			    	block.rRight() 
+			    }
+			    else if(event.key == "Shift") {
+			    	if(!board.ableHold) return false;
+			    	let blocks = [L, L1, S, S1, T, I, SQ];
+			    	let val = board.toggleHold(block);
+			    	block.remove();
+			    	block = null;
+			    	if(val > -1) {
+			    		block = new blocks[val];
+			    		//Checking if the block can be placed.
+			    		for(let i = 0; i < block.coords.length; i++) {
+					 		let box = document.getElementById(`${block.coords[i][0]}-${block.coords[i][1]}`);
+					 		if(box.classList.contains('placed') || box.classList.contains('on')) {
+					 			clearInterval(loop);
+					 			board.gameOver();
+					 		};
+					 	};
+					 	if(board.active) {
+					 		board.shiftQ();
+					 		block.update();
+					 	};
+			    	}
+			    	else {
+			    		//Creating a new block
+					 	board.checkArr();
+					 	block = new board.queue[0];
+					 	for(let i = 0; i < block.coords.length; i++) {
+					 		let box = document.getElementById(`${block.coords[i][0]}-${block.coords[i][1]}`);
+					 		if(box.classList.contains('placed') || box.classList.contains('on')) {
+					 			clearInterval(loop);
+					 			board.gameOver();
+					 		};
+					 	};
+					 	if(board.active) {
+					 		board.shiftQ();
+					 		block.update();
+					 	};
+			    	};
 			    }
 			});
 		};
