@@ -26,6 +26,7 @@
 			block.update();
 			//Main game loop
 			let loop = setInterval(async () => {
+				block.ghost();
 				if(!block.down()) {
 				 	let sound = new Audio('music/place.mp3');
 			    	sound.play();

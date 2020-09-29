@@ -1,4 +1,5 @@
-let boardColour = '#E1E1E1';
+let boardColour = '#F2F2F2';
+let gColour = '#E1E1E1';
 
 class Board {
 	constructor(width, height) {
@@ -231,10 +232,22 @@ class Board {
 class L{
 	constructor() {
 		this.coords = [[0, 4], [1, 4], [2, 4], [2, 5]];
+		this.gCoords = [[0, 4], [1, 4], [2, 4], [2, 5]];
 		this.active = true;
 		this.rotation = 1;
 		this.colour = 'orange';
 		this.order = 0;
+
+	}
+	ghost() {
+		let able = true;
+		while(able) {
+			for(let i = 0; i < this.gCoords.length; i++) {
+				let box = document.getElementById(`${this.gCoords[i][0]+1}-${this.gCoords[i][1]}`);
+				if(!box) able = false;
+			};
+			if(able) for(let i = 0; i < this.gCoords.length;i++) this.gCoords[i][0]++;
+		};
 	}
 	down() {
 		let y = this.coords.map(y => y[0]);
@@ -263,6 +276,7 @@ class L{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]--;
+			this.gCoords[x][1]--;
 		};
 		this.update();
 		return true;
@@ -276,11 +290,20 @@ class L{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]++;
+			this.gCoords[x][1]++;
 		};
 		this.update();
 		return true;
 	}
 	update() {
+		//Updating ghost block
+		console.log(this.gCoords);
+		for(let x = 0; x < 4; x++) {
+			let sCoords = `${this.gCoords[x][0]}-${this.gCoords[x][1]}`;
+			let box = document.getElementById(sCoords);
+			box.style.background = gColour;
+		};
+		//Updating block
 		for(let x = 0; x < 4; x++) {
 			let sCoords = `${this.coords[x][0]}-${this.coords[x][1]}`;
 			let box = document.getElementById(sCoords);
@@ -296,6 +319,12 @@ class L{
 			box.style.background = boardColour;
 			box.classList.add('off');
 			box.classList.remove('on');
+		};
+		//Updating ghost block
+		for(let x = 0; x < 4; x++) {
+			let sCoords = `${this.gCoords[x][0]}-${this.gCoords[x][1]}`;
+			let box = document.getElementById(sCoords);
+			box.style.background = boardColour;
 		};
 	}
 	checkY(coords, rotate) {
@@ -478,10 +507,21 @@ class L{
 class L1{
 	constructor() {
 		this.coords = [[0, 4], [1, 4], [2, 4], [2, 3]];
+		this.gCoords = [[0, 4], [1, 4], [2, 4], [2, 3]];
 		this.active = true;
 		this.rotation = 1;
 		this.colour = 'blue';
 		this.order = 1;
+	}
+	ghost() {
+		let able = true;
+		while(able) {
+			for(let i = 0; i < this.gCoords.length; i++) {
+				let box = document.getElementById(`${this.gCoords[i][0]+1}-${this.gCoords[i][1]}`);
+				if(!box) able = false;
+			};
+			if(able) for(let i = 0; i < this.gCoords.length;i++) this.gCoords[i][0]++;
+		};
 	}
 	down() {
 		let y = this.coords.map(y => y[0]);
@@ -510,6 +550,7 @@ class L1{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]--;
+			this.gCoords[x][1]--;
 		};
 		this.update();
 		return true;
@@ -523,6 +564,7 @@ class L1{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]++;
+			this.gCoords[x][1]++;
 		};
 		this.update();
 		return true;
@@ -544,6 +586,13 @@ class L1{
 			box.classList.add('off');
 			box.classList.remove('on');
 		};
+		//Updating ghost block
+		for(let x = 0; x < 4; x++) {
+			let sCoords = `${this.gCoords[x][0]}-${this.gCoords[x][1]}`;
+			let box = document.getElementById(sCoords);
+			box.style.background = boardColour;
+		};
+
 	}
 	checkY(coords, rotate) {
 		if(!coords) coords = this.coords;
@@ -730,10 +779,21 @@ class L1{
 class I{
 	constructor() {
 		this.coords = [[0, 4], [1, 4], [2, 4], [3, 4]];
+		this.gCoords = [[0, 4], [1, 4], [2, 4], [3, 4]];
 		this.active = true;
 		this.rotation = 1;
 		this.colour = 'cyan';
 		this.order = 5;
+	}
+	ghost() {
+		let able = true;
+		while(able) {
+			for(let i = 0; i < this.gCoords.length; i++) {
+				let box = document.getElementById(`${this.gCoords[i][0]+1}-${this.gCoords[i][1]}`);
+				if(!box) able = false;
+			};
+			if(able) for(let i = 0; i < this.gCoords.length;i++) this.gCoords[i][0]++;
+		};
 	}
 	down() {
 		let y = this.coords.map(y => y[0]);
@@ -762,6 +822,7 @@ class I{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]--;
+			this.gCoords[x][1]--;
 		};
 		this.update();
 		return true;
@@ -775,6 +836,7 @@ class I{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]++;
+			this.gCoords[x][1]++;
 		};
 		this.update();
 		return true;
@@ -795,6 +857,12 @@ class I{
 			box.style.background = boardColour;
 			box.classList.add('off');
 			box.classList.remove('on');
+		};
+		//Updating ghost block
+		for(let x = 0; x < 4; x++) {
+			let sCoords = `${this.gCoords[x][0]}-${this.gCoords[x][1]}`;
+			let box = document.getElementById(sCoords);
+			box.style.background = boardColour;
 		};
 	}
 	checkY(coords, rotate) {
@@ -1031,10 +1099,21 @@ class I{
 class SQ{
 	constructor() {
 		this.coords = [[0, 4], [1, 4], [0, 5], [1, 5]];
+		this.gCoords = [[0, 4], [1, 4], [0, 5], [1, 5]];
 		this.active = true;
 		this.rotation = 1;
 		this.colour = 'yellow';
 		this.order = 6;
+	}
+	ghost() {
+		let able = true;
+		while(able) {
+			for(let i = 0; i < this.gCoords.length; i++) {
+				let box = document.getElementById(`${this.gCoords[i][0]+1}-${this.gCoords[i][1]}`);
+				if(!box) able = false;
+			};
+			if(able) for(let i = 0; i < this.gCoords.length;i++) this.gCoords[i][0]++;
+		};
 	}
 	down() {
 		let y = this.coords.map(y => y[0]);
@@ -1063,6 +1142,7 @@ class SQ{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]--;
+			this.gCoords[x][1]--;
 		};
 		this.update();
 		return true;
@@ -1076,6 +1156,7 @@ class SQ{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]++;
+			this.gCoords[x][1]++;
 		};
 		this.update();
 		return true;
@@ -1097,6 +1178,13 @@ class SQ{
 			box.classList.add('off');
 			box.classList.remove('on');
 		};
+		//Updating ghost block
+		for(let x = 0; x < 4; x++) {
+			let sCoords = `${this.gCoords[x][0]}-${this.gCoords[x][1]}`;
+			let box = document.getElementById(sCoords);
+			box.style.background = boardColour;
+		};
+
 	}
 	checkY(coords, rotate) {
 		if(!coords) coords = this.coords;
@@ -1156,6 +1244,7 @@ class SQ{
 class T{
 	constructor() {
 		this.coords = [[0, 4], [1, 4], [1, 3], [1, 5]];
+		this.gCoords = [[0, 4], [1, 4], [1, 3], [1, 5]];
 		this.active = true;
 		this.rotation = 1;
 		this.colour = 'purple';
@@ -1188,6 +1277,7 @@ class T{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]--;
+			this.gCoords[x][1]--;
 		};
 		this.update();
 		return true;
@@ -1201,6 +1291,7 @@ class T{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]++;
+			this.gCoords[x][1]++;
 		};
 		this.update();
 		return true;
@@ -1222,6 +1313,13 @@ class T{
 			box.classList.add('off');
 			box.classList.remove('on');
 		};
+		//Updating ghost block
+		for(let x = 0; x < 4; x++) {
+			let sCoords = `${this.gCoords[x][0]}-${this.gCoords[x][1]}`;
+			let box = document.getElementById(sCoords);
+			box.style.background = boardColour;
+		};
+
 	}
 	checkY(coords, rotate) {
 		if(!coords) coords = this.coords;
@@ -1456,10 +1554,21 @@ class T{
 class S{
 	constructor() {
 		this.coords = [[0, 5], [0, 4], [1, 4], [1, 3]];
+		this.gCoords = [[0, 5], [0, 4], [1, 4], [1, 3]];
 		this.active = true;
 		this.rotation = 1;
 		this.colour = 'lime';
 		this.order = 2;
+	}
+	ghost() {
+		let able = true;
+		while(able) {
+			for(let i = 0; i < this.gCoords.length; i++) {
+				let box = document.getElementById(`${this.gCoords[i][0]+1}-${this.gCoords[i][1]}`);
+				if(!box) able = false;
+			};
+			if(able) for(let i = 0; i < this.gCoords.length;i++) this.gCoords[i][0]++;
+		};
 	}
 	down() {
 		let y = this.coords.map(y => y[0]);
@@ -1488,6 +1597,7 @@ class S{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]--;
+			this.gCoords[x][1]--;
 		};
 		this.update();
 		return true;
@@ -1501,6 +1611,7 @@ class S{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]++;
+			this.gCoords[x][1]++;
 		};
 		this.update();
 		return true;
@@ -1522,6 +1633,13 @@ class S{
 			box.classList.add('off');
 			box.classList.remove('on');
 		};
+		//Updating ghost block
+		for(let x = 0; x < 4; x++) {
+			let sCoords = `${this.gCoords[x][0]}-${this.gCoords[x][1]}`;
+			let box = document.getElementById(sCoords);
+			box.style.background = boardColour;
+		};
+
 	}
 	checkY(coords, rotate) {
 		if(!coords) coords = this.coords;
@@ -1752,10 +1870,21 @@ class S{
 class S1{
 	constructor() {
 		this.coords = [[0, 3], [0, 4], [1, 4], [1, 5]];
+		this.gCoords = [[0, 3], [0, 4], [1, 4], [1, 5]];
 		this.active = true;
 		this.rotation = 1;
 		this.colour = 'red';
 		this.order = 3;
+	}
+	ghost() {
+		let able = true;
+		while(able) {
+			for(let i = 0; i < this.gCoords.length; i++) {
+				let box = document.getElementById(`${this.gCoords[i][0]+1}-${this.gCoords[i][1]}`);
+				if(!box) able = false;
+			};
+			if(able) for(let i = 0; i < this.gCoords.length;i++) this.gCoords[i][0]++;
+		};
 	}
 	down() {
 		let y = this.coords.map(y => y[0]);
@@ -1784,6 +1913,7 @@ class S1{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]--;
+			this.gCoords[x][1]--;
 		};
 		this.update();
 		return true;
@@ -1797,6 +1927,7 @@ class S1{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]++;
+			this.gCoords[x][1]++;
 		};
 		this.update();
 		return true;
@@ -1817,6 +1948,12 @@ class S1{
 			box.style.background = boardColour;
 			box.classList.add('off');
 			box.classList.remove('on');
+		};
+		//Updating ghost block
+		for(let x = 0; x < 4; x++) {
+			let sCoords = `${this.gCoords[x][0]}-${this.gCoords[x][1]}`;
+			let box = document.getElementById(sCoords);
+			box.style.background = boardColour;
 		};
 	}
 	checkY(coords, rotate) {
