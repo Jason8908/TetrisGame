@@ -23,6 +23,7 @@
 			let ran = Math.round(Math.random() * 6);
 			//let block = new blocks[ran];
 			let block = new blocks[ran];
+			block.ghost();
 			block.update();
 			//Main game loop
 			let loop = setInterval(async () => {
@@ -58,7 +59,6 @@
 			    	let score = 13*ran2;
 			    	board.add(score, 'score');
 			    	//Creating a new block
-			    	board.checkArr();
 				 	block = new board.queue[0];
 				 	for(let i = 0; i < block.coords.length; i++) {
 				 		let box = document.getElementById(`${block.coords[i][0]}-${block.coords[i][1]}`);
@@ -69,12 +69,14 @@
 				 	};
 				 	if(board.active) {
 				 		board.shiftQ();
+				 		block.ghost();
 				 		block.update();
 				 	};
 				 };
 			}, 800);
 			//Key listeners
 			document.addEventListener('keydown', function(event) {
+				if(!board.active) return;
 			    if(event.key == "ArrowLeft") {
 			    	if(!board.active) return false;
 			    	block.left();
@@ -116,7 +118,6 @@
 				    	let score = 13*ran2;
 				    	board.add(score, 'score');
 				    	//Creating a new block
-					 	board.checkArr();
 					 	block = new board.queue[0];
 					 	for(let i = 0; i < block.coords.length; i++) {
 					 		let box = document.getElementById(`${block.coords[i][0]}-${block.coords[i][1]}`);
@@ -127,22 +128,27 @@
 					 	};
 					 	if(board.active) {
 					 		board.shiftQ();
+					 		block.ghost();
 					 		block.update();
 					 	};
 					 };
 			    }
 			    else if(event.key == "x") {
 			    	if(!board.active) return false;
-			    	block.rRight() 
+			    	block.rRight();
+			    	block.ghost();
 			    }
 			    else if(event.key == "Shift") {
 			    	if(!board.ableHold) return false;
+			    	let sound = new Audio('music/move.mp3');
+			    	sound.play();
 			    	let blocks = [L, L1, S, S1, T, I, SQ];
 			    	let val = board.toggleHold(block);
 			    	block.remove();
 			    	block = null;
 			    	if(val > -1) {
 			    		block = new blocks[val];
+			    		block.ghost();
 			    		//Checking if the block can be placed.
 			    		for(let i = 0; i < block.coords.length; i++) {
 					 		let box = document.getElementById(`${block.coords[i][0]}-${block.coords[i][1]}`);
@@ -158,8 +164,8 @@
 			    	}
 			    	else {
 			    		//Creating a new block
-					 	board.checkArr();
 					 	block = new board.queue[0];
+					 	block.ghost();
 					 	for(let i = 0; i < block.coords.length; i++) {
 					 		let box = document.getElementById(`${block.coords[i][0]}-${block.coords[i][1]}`);
 					 		if(box.classList.contains('placed') || box.classList.contains('on')) {
@@ -173,6 +179,52 @@
 					 	};
 			    	};
 			    }
+			    else if(event.key == " ") {
+			    	block.insta();
+			    	board.ableHold = true;
+			    	//Updating board array.
+				    board.updateArr(block.coords, block.colour);
+			    	let sound = new Audio('music/place.mp3');
+			    	sound.play();
+			    	//Checking for line clear.
+			    	let arrs = board.checkArr();
+			    	if(arrs) {
+			    		if(arrs.length >= 4) {
+			    			let sound = new Audio('music/tetris.mp3');
+			    			sound.play();
+			    		}
+			    		else {
+			    			let sound = new Audio('music/line.mp3');
+			    			sound.play();
+			    		};
+			    		//Shifting the array
+			    		board.shiftArr(arrs);
+			    		//Clearing the board.
+			    		board.clear();
+			    		//Moving the blocks.
+			    		board.update();
+			    		//Updating the score.
+			    		board.updateLabel('score');
+			    	};
+			    	//Assigning points to score.
+			    	let ran2 = Math.round(1 + Math.random() * 6);
+			    	let score = 13*ran2;
+			    	board.add(score, 'score');
+			    	//Moving on to the next block.
+				 	block = new board.queue[0];
+				 	block.ghost();
+				 	for(let i = 0; i < block.coords.length; i++) {
+				 		let box = document.getElementById(`${block.coords[i][0]}-${block.coords[i][1]}`);
+				 		if(box.classList.contains('placed') || box.classList.contains('on')) {
+				 			clearInterval(loop);
+				 			board.gameOver();
+				 		};
+				 	};
+				 	if(board.active) {
+				 		board.shiftQ();
+				 		block.update();
+				 	};
+			    }
 			});
 		};
 	</script>
@@ -181,6 +233,8 @@
 			$("#play").click(function(event) {
 				/* Act on the event */
 				$("#play").css("display", "none");
+				$("#how").css("display", "none");
+				$(".instructions").css("display", "none");
 				$('audio#bgm')[0].play();
 				$('audio#bgm')[0].loop = true;
 				start();
@@ -188,6 +242,17 @@
 		});
 	</script>
 	<body id="body">
+		<h1 id="how">How to Play</h1>
+		<par class="instructions">Use the arrow keys to move the blocks around.</par>
+		<br>
+		<par class="instructions">Press X to rotate blocks.</par>
+		<br>
+		<par class="instructions">Press Shift to hold blocks and swap them back.</par>
+		<br>
+		<par class="instructions">Use the Down Arrow to go down faster.</par>
+		<br>
+		<par class="instructions">Press the Spacebar to drop a block.</par>
+		<br>
 		<h1 id="play">Play!</h1>
 		<div id="game"></div>
 	</body>

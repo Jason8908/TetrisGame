@@ -89,6 +89,7 @@ class Board {
 			if(!(this.boardArr[i].includes(0))) out.push(i);
 		};
 		out = (out.length < 1 ? false:out);
+		console.log(this.boardArr);
 		return out;
 	}
 	clear() {
@@ -239,12 +240,33 @@ class L{
 		this.order = 0;
 
 	}
+	insta() {
+		this.ghost();
+		this.remove();
+		for(let i = 0; i < this.coords.length; i++) {
+			for(let x = 0; x < this.coords[i].length; x++) {
+				this.coords[i][x] = this.gCoords[i][x];
+				let sCoords = `${this.coords[i][0]}-${this.coords[i][1]}`;
+				let box = document.getElementById(sCoords);
+				box.classList.remove('off');
+				box.classList.add('on');
+				box.classList.add('placed');
+			};
+		};
+		this.update();
+	}
 	ghost() {
+		for(let i = 0; i < this.coords.length;i++) {
+			for(let x = 0; x < this.coords[i].length; x++) {
+				this.gCoords[i][x] = this.coords[i][x];
+			};
+		};
 		let able = true;
 		while(able) {
 			for(let i = 0; i < this.gCoords.length; i++) {
 				let box = document.getElementById(`${this.gCoords[i][0]+1}-${this.gCoords[i][1]}`);
 				if(!box) able = false;
+				if(box) if(box.classList.contains('placed')) able = false;
 			};
 			if(able) for(let i = 0; i < this.gCoords.length;i++) this.gCoords[i][0]++;
 		};
@@ -276,7 +298,7 @@ class L{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]--;
-			this.gCoords[x][1]--;
+			this.ghost();
 		};
 		this.update();
 		return true;
@@ -290,14 +312,13 @@ class L{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]++;
-			this.gCoords[x][1]++;
+			this.ghost();
 		};
 		this.update();
 		return true;
 	}
 	update() {
 		//Updating ghost block
-		console.log(this.gCoords);
 		for(let x = 0; x < 4; x++) {
 			let sCoords = `${this.gCoords[x][0]}-${this.gCoords[x][1]}`;
 			let box = document.getElementById(sCoords);
@@ -416,6 +437,7 @@ class L{
 					this.rotation ++;
 				};
 				//updating blocks
+				this.ghost();
 				this.update();
 			break;
 			case 2:
@@ -444,7 +466,8 @@ class L{
 				else {
 					this.coords = temp;
 					this.rotation++;
-				}		
+				}
+				this.ghost();		
 				this.update();
 			break;
 			case 3:
@@ -484,6 +507,7 @@ class L{
 					this.rotation ++;
 				};
 				//updating blocks
+				this.ghost();
 				this.update();
 			break;
 			case 4:
@@ -496,6 +520,7 @@ class L{
 				this.coords[3][1]--;
 				this.coords[3][0]++;
 				//updating blocks
+				this.ghost();
 				this.update();
 				this.rotation = 1;
 			break;
@@ -513,12 +538,33 @@ class L1{
 		this.colour = 'blue';
 		this.order = 1;
 	}
+	insta() {
+		this.ghost();
+		this.remove();
+		for(let i = 0; i < this.coords.length; i++) {
+			for(let x = 0; x < this.coords[i].length; x++) {
+				this.coords[i][x] = this.gCoords[i][x];
+				let sCoords = `${this.coords[i][0]}-${this.coords[i][1]}`;
+				let box = document.getElementById(sCoords);
+				box.classList.remove('off');
+				box.classList.add('on');
+				box.classList.add('placed');
+			};
+		};
+		this.update();
+	}
 	ghost() {
+		for(let i = 0; i < this.coords.length;i++) {
+			for(let x = 0; x < this.coords[i].length; x++) {
+				this.gCoords[i][x] = this.coords[i][x];
+			};
+		};
 		let able = true;
 		while(able) {
 			for(let i = 0; i < this.gCoords.length; i++) {
 				let box = document.getElementById(`${this.gCoords[i][0]+1}-${this.gCoords[i][1]}`);
 				if(!box) able = false;
+				if(box) if(box.classList.contains('placed')) able = false;
 			};
 			if(able) for(let i = 0; i < this.gCoords.length;i++) this.gCoords[i][0]++;
 		};
@@ -550,7 +596,7 @@ class L1{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]--;
-			this.gCoords[x][1]--;
+			this.ghost();
 		};
 		this.update();
 		return true;
@@ -564,12 +610,18 @@ class L1{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]++;
-			this.gCoords[x][1]++;
+			this.ghost();
 		};
 		this.update();
 		return true;
 	}
 	update() {
+		//Updating ghost block
+		for(let x = 0; x < 4; x++) {
+			let sCoords = `${this.gCoords[x][0]}-${this.gCoords[x][1]}`;
+			let box = document.getElementById(sCoords);
+			box.style.background = gColour;
+		};
 		for(let x = 0; x < 4; x++) {
 			let sCoords = `${this.coords[x][0]}-${this.coords[x][1]}`;
 			let box = document.getElementById(sCoords);
@@ -682,6 +734,7 @@ class L1{
 					this.coords = temp;
 					this.rotation = 2;
 				};
+				this.ghost();
 				this.update();
 			break;
 			case 2:
@@ -700,7 +753,8 @@ class L1{
 				temp[3][0]--;
 				temp[3][1]++;
 				this.coords = temp;
-				this.rotation = 3;		
+				this.rotation = 3;
+				this.ghost();		
 				this.update();
 			break;
 			case 3:
@@ -740,6 +794,7 @@ class L1{
 					this.rotation = 4;
 				};
 				//updating blocks
+				this.ghost();
 				this.update();
 			break;
 			case 4:
@@ -769,6 +824,7 @@ class L1{
 					this.coords = temp;
 					this.rotation = 1;
 				}
+				this.ghost();
 				this.update();
 			break;
 			
@@ -785,12 +841,33 @@ class I{
 		this.colour = 'cyan';
 		this.order = 5;
 	}
+	insta() {
+		this.ghost();
+		this.remove();
+		for(let i = 0; i < this.coords.length; i++) {
+			for(let x = 0; x < this.coords[i].length; x++) {
+				this.coords[i][x] = this.gCoords[i][x];
+				let sCoords = `${this.coords[i][0]}-${this.coords[i][1]}`;
+				let box = document.getElementById(sCoords);
+				box.classList.remove('off');
+				box.classList.add('on');
+				box.classList.add('placed');
+			};
+		};
+		this.update();
+	}
 	ghost() {
+		for(let i = 0; i < this.coords.length;i++) {
+			for(let x = 0; x < this.coords[i].length; x++) {
+				this.gCoords[i][x] = this.coords[i][x];
+			};
+		};
 		let able = true;
 		while(able) {
 			for(let i = 0; i < this.gCoords.length; i++) {
 				let box = document.getElementById(`${this.gCoords[i][0]+1}-${this.gCoords[i][1]}`);
 				if(!box) able = false;
+				if(box) if(box.classList.contains('placed')) able = false;
 			};
 			if(able) for(let i = 0; i < this.gCoords.length;i++) this.gCoords[i][0]++;
 		};
@@ -822,7 +899,7 @@ class I{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]--;
-			this.gCoords[x][1]--;
+			this.ghost();
 		};
 		this.update();
 		return true;
@@ -836,12 +913,18 @@ class I{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]++;
-			this.gCoords[x][1]++;
+			this.ghost();
 		};
 		this.update();
 		return true;
 	}
 	update() {
+		//Updating ghost block
+		for(let x = 0; x < 4; x++) {
+			let sCoords = `${this.gCoords[x][0]}-${this.gCoords[x][1]}`;
+			let box = document.getElementById(sCoords);
+			box.style.background = gColour;
+		};
 		for(let x = 0; x < 4; x++) {
 			let sCoords = `${this.coords[x][0]}-${this.coords[x][1]}`;
 			let box = document.getElementById(sCoords);
@@ -966,6 +1049,7 @@ class I{
 					this.coords = temp;
 					this.rotation = 2;
 				};
+				this.ghost();
 				this.update();
 			break;
 			case 2:
@@ -984,7 +1068,8 @@ class I{
 				temp[3][0]-=3;
 				temp[3][1]++;
 				this.coords = temp;
-				this.rotation++;		
+				this.rotation++;
+				this.ghost();		
 				this.update();
 			break;
 			case 3:
@@ -1037,6 +1122,7 @@ class I{
 					this.rotation = 4;
 				};
 				//updating blocks
+				this.ghost();
 				this.update();
 			break;
 			case 4:
@@ -1089,6 +1175,7 @@ class I{
 					this.coords = temp;
 					this.rotation = 1;
 				};
+				this.ghost();
 				this.update();
 			break;
 			
@@ -1105,12 +1192,33 @@ class SQ{
 		this.colour = 'yellow';
 		this.order = 6;
 	}
+	insta() {
+		this.ghost();
+		this.remove();
+		for(let i = 0; i < this.coords.length; i++) {
+			for(let x = 0; x < this.coords[i].length; x++) {
+				this.coords[i][x] = this.gCoords[i][x];
+				let sCoords = `${this.coords[i][0]}-${this.coords[i][1]}`;
+				let box = document.getElementById(sCoords);
+				box.classList.remove('off');
+				box.classList.add('on');
+				box.classList.add('placed');
+			};
+		};
+		this.update();
+	}
 	ghost() {
+		for(let i = 0; i < this.coords.length;i++) {
+			for(let x = 0; x < this.coords[i].length; x++) {
+				this.gCoords[i][x] = this.coords[i][x];
+			};
+		};
 		let able = true;
 		while(able) {
 			for(let i = 0; i < this.gCoords.length; i++) {
 				let box = document.getElementById(`${this.gCoords[i][0]+1}-${this.gCoords[i][1]}`);
 				if(!box) able = false;
+				if(box) if(box.classList.contains('placed')) able = false;
 			};
 			if(able) for(let i = 0; i < this.gCoords.length;i++) this.gCoords[i][0]++;
 		};
@@ -1142,7 +1250,7 @@ class SQ{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]--;
-			this.gCoords[x][1]--;
+			this.ghost();
 		};
 		this.update();
 		return true;
@@ -1156,12 +1264,18 @@ class SQ{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]++;
-			this.gCoords[x][1]++;
+			this.ghost();
 		};
 		this.update();
 		return true;
 	}
 	update() {
+		//Updating ghost block
+		for(let x = 0; x < 4; x++) {
+			let sCoords = `${this.gCoords[x][0]}-${this.gCoords[x][1]}`;
+			let box = document.getElementById(sCoords);
+			box.style.background = gColour;
+		};
 		for(let x = 0; x < 4; x++) {
 			let sCoords = `${this.coords[x][0]}-${this.coords[x][1]}`;
 			let box = document.getElementById(sCoords);
@@ -1250,6 +1364,37 @@ class T{
 		this.colour = 'purple';
 		this.order = 4;
 	}
+	insta() {
+		this.ghost();
+		this.remove();
+		for(let i = 0; i < this.coords.length; i++) {
+			for(let x = 0; x < this.coords[i].length; x++) {
+				this.coords[i][x] = this.gCoords[i][x];
+				let sCoords = `${this.coords[i][0]}-${this.coords[i][1]}`;
+				let box = document.getElementById(sCoords);
+				box.classList.remove('off');
+				box.classList.add('on');
+				box.classList.add('placed');
+			};
+		};
+		this.update();
+	}
+	ghost() {
+		for(let i = 0; i < this.coords.length;i++) {
+			for(let x = 0; x < this.coords[i].length; x++) {
+				this.gCoords[i][x] = this.coords[i][x];
+			};
+		};
+		let able = true;
+		while(able) {
+			for(let i = 0; i < this.gCoords.length; i++) {
+				let box = document.getElementById(`${this.gCoords[i][0]+1}-${this.gCoords[i][1]}`);
+				if(!box) able = false;
+				if(box) if(box.classList.contains('placed')) able = false;
+			};
+			if(able) for(let i = 0; i < this.gCoords.length;i++) this.gCoords[i][0]++;
+		};
+	}
 	down() {
 		let y = this.coords.map(y => y[0]);
 		if(y.includes(19) || !this.active || !this.checkY()) {
@@ -1277,7 +1422,7 @@ class T{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]--;
-			this.gCoords[x][1]--;
+			this.ghost();
 		};
 		this.update();
 		return true;
@@ -1291,12 +1436,18 @@ class T{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]++;
-			this.gCoords[x][1]++;
+			this.ghost();
 		};
 		this.update();
 		return true;
 	}
 	update() {
+		//Updating ghost block
+		for(let x = 0; x < 4; x++) {
+			let sCoords = `${this.gCoords[x][0]}-${this.gCoords[x][1]}`;
+			let box = document.getElementById(sCoords);
+			box.style.background = gColour;
+		};
 		for(let x = 0; x < 4; x++) {
 			let sCoords = `${this.coords[x][0]}-${this.coords[x][1]}`;
 			let box = document.getElementById(sCoords);
@@ -1402,6 +1553,7 @@ class T{
 					this.rotation = 2;
 					this.coords = temp;
 				};
+				this.ghost();
 				this.update();
 			break;
 			case 2:
@@ -1440,6 +1592,7 @@ class T{
 					this.coords = temp;
 					this.rotation = 3;	
 				};
+				this.ghost();
 				this.update();
 			break;
 			case 3:
@@ -1492,6 +1645,7 @@ class T{
 					this.rotation = 4;
 				};
 				//updating blocks
+				this.ghost();
 				this.update();
 			break;
 			case 4:
@@ -1544,6 +1698,7 @@ class T{
 					this.coords = temp;
 					this.rotation = 1;
 				};
+				this.ghost();
 				this.update();
 			break;
 			
@@ -1560,12 +1715,33 @@ class S{
 		this.colour = 'lime';
 		this.order = 2;
 	}
+	insta() {
+		this.ghost();
+		this.remove();
+		for(let i = 0; i < this.coords.length; i++) {
+			for(let x = 0; x < this.coords[i].length; x++) {
+				this.coords[i][x] = this.gCoords[i][x];
+				let sCoords = `${this.coords[i][0]}-${this.coords[i][1]}`;
+				let box = document.getElementById(sCoords);
+				box.classList.remove('off');
+				box.classList.add('on');
+				box.classList.add('placed');
+			};
+		};
+		this.update();
+	}
 	ghost() {
+		for(let i = 0; i < this.coords.length;i++) {
+			for(let x = 0; x < this.coords[i].length; x++) {
+				this.gCoords[i][x] = this.coords[i][x];
+			};
+		};
 		let able = true;
 		while(able) {
 			for(let i = 0; i < this.gCoords.length; i++) {
 				let box = document.getElementById(`${this.gCoords[i][0]+1}-${this.gCoords[i][1]}`);
 				if(!box) able = false;
+				if(box) if(box.classList.contains('placed')) able = false;
 			};
 			if(able) for(let i = 0; i < this.gCoords.length;i++) this.gCoords[i][0]++;
 		};
@@ -1597,7 +1773,7 @@ class S{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]--;
-			this.gCoords[x][1]--;
+			this.ghost();
 		};
 		this.update();
 		return true;
@@ -1611,12 +1787,18 @@ class S{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]++;
-			this.gCoords[x][1]++;
+			this.ghost();
 		};
 		this.update();
 		return true;
 	}
 	update() {
+		//Updating ghost block
+		for(let x = 0; x < 4; x++) {
+			let sCoords = `${this.gCoords[x][0]}-${this.gCoords[x][1]}`;
+			let box = document.getElementById(sCoords);
+			box.style.background = gColour;
+		};
 		for(let x = 0; x < 4; x++) {
 			let sCoords = `${this.coords[x][0]}-${this.coords[x][1]}`;
 			let box = document.getElementById(sCoords);
@@ -1721,6 +1903,7 @@ class S{
 					this.rotation = 2;
 					this.coords = temp;
 				};
+				this.ghost();
 				this.update();
 			break;
 			case 2:
@@ -1758,6 +1941,7 @@ class S{
 					this.coords = temp;
 					this.rotation = 3;
 				};
+				this.ghost();
 				this.update();
 			break;
 			case 3:
@@ -1809,6 +1993,7 @@ class S{
 					this.rotation = 4;
 				};
 				//updating blocks
+				this.ghost();
 				this.update();
 			break;
 			case 4:
@@ -1860,6 +2045,7 @@ class S{
 					this.coords = temp;
 					this.rotation = 1;
 				};
+				this.ghost();
 				this.update();
 			break;
 			
@@ -1876,12 +2062,33 @@ class S1{
 		this.colour = 'red';
 		this.order = 3;
 	}
+	insta() {
+		this.ghost();
+		this.remove();
+		for(let i = 0; i < this.coords.length; i++) {
+			for(let x = 0; x < this.coords[i].length; x++) {
+				this.coords[i][x] = this.gCoords[i][x];
+				let sCoords = `${this.coords[i][0]}-${this.coords[i][1]}`;
+				let box = document.getElementById(sCoords);
+				box.classList.remove('off');
+				box.classList.add('on');
+				box.classList.add('placed');
+			};
+		};
+		this.update();
+	}
 	ghost() {
+		for(let i = 0; i < this.coords.length;i++) {
+			for(let x = 0; x < this.coords[i].length; x++) {
+				this.gCoords[i][x] = this.coords[i][x];
+			};
+		};
 		let able = true;
 		while(able) {
 			for(let i = 0; i < this.gCoords.length; i++) {
 				let box = document.getElementById(`${this.gCoords[i][0]+1}-${this.gCoords[i][1]}`);
 				if(!box) able = false;
+				if(box) if(box.classList.contains('placed')) able = false;
 			};
 			if(able) for(let i = 0; i < this.gCoords.length;i++) this.gCoords[i][0]++;
 		};
@@ -1913,7 +2120,7 @@ class S1{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]--;
-			this.gCoords[x][1]--;
+			this.ghost();
 		};
 		this.update();
 		return true;
@@ -1927,12 +2134,18 @@ class S1{
 		for(let x = 0; x < 4; x++) {
 			this.remove();
 			this.coords[x][1]++;
-			this.gCoords[x][1]++;
+			this.ghost();
 		};
 		this.update();
 		return true;
 	}
 	update() {
+		//Updating ghost block
+		for(let x = 0; x < 4; x++) {
+			let sCoords = `${this.gCoords[x][0]}-${this.gCoords[x][1]}`;
+			let box = document.getElementById(sCoords);
+			box.style.background = gColour;
+		};
 		for(let x = 0; x < 4; x++) {
 			let sCoords = `${this.coords[x][0]}-${this.coords[x][1]}`;
 			let box = document.getElementById(sCoords);
@@ -1948,6 +2161,7 @@ class S1{
 			box.style.background = boardColour;
 			box.classList.add('off');
 			box.classList.remove('on');
+			box.classList.remove('placed');
 		};
 		//Updating ghost block
 		for(let x = 0; x < 4; x++) {
@@ -2036,6 +2250,7 @@ class S1{
 					this.rotation = 2;
 					this.coords = temp;
 				};
+				this.ghost();
 				this.update();
 			break;
 			case 2:
@@ -2086,6 +2301,7 @@ class S1{
 					this.coords = temp;
 					this.rotation = 3;
 				};
+				this.ghost();
 				this.update();
 			break;
 			case 3:
@@ -2136,6 +2352,7 @@ class S1{
 					this.coords = temp;
 					this.rotation = 4;
 				};
+				this.ghost();
 				//updating blocks
 				this.update();
 			break;
@@ -2188,6 +2405,7 @@ class S1{
 					this.coords = temp;
 					this.rotation = 1;
 				};
+				this.ghost();
 				this.update();
 			break;
 		};
