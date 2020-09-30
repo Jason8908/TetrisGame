@@ -29,22 +29,12 @@
 			let loop = setInterval(async () => {
 				block.ghost();
 				if(!block.down()) {
-				 	let sound = new Audio('music/place.mp3');
-			    	sound.play();
 			    	board.ableHold = true;
 			    	//Updating board array.
 			    	board.updateArr(block.coords, block.colour);
 			    	//Checking for line clear.
 			    	let arrs = board.checkArr();
 			    	if(arrs) {
-			    		if(arrs.length >= 4) {
-			    			let sound = new Audio('music/tetris.mp3');
-			    			sound.play();
-			    		}
-			    		else {
-			    			let sound = new Audio('music/line.mp3');
-			    			sound.play();
-			    		};
 			    		//Shifting the array
 			    		board.shiftArr(arrs);
 			    		//Clearing the board.
@@ -88,22 +78,12 @@
 			    else if(event.key == "ArrowDown") {
 			    	if(!board.active) return false;
 			    	if(!block.down()) {
-			    		let sound = new Audio('music/place.mp3');
-			    		sound.play();
 			    		board.ableHold = true;
 			    		//Updating board array.
 				    	board.updateArr(block.coords, block.colour);
 				    	//Checking for line clear.
 				    	let arrs = board.checkArr();
 				    	if(arrs) {
-				    		if(arrs.length >= 4) {
-				    			let sound = new Audio('music/tetris.mp3');
-				    			sound.play();
-				    		}
-				    		else {
-				    			let sound = new Audio('music/line.mp3');
-				    			sound.play();
-				    		};
 				    		//Shifting the array
 				    		board.shiftArr(arrs);
 				    		//Clearing the board.
@@ -140,8 +120,6 @@
 			    }
 			    else if(event.key == "Shift") {
 			    	if(!board.ableHold) return false;
-			    	let sound = new Audio('music/move.mp3');
-			    	sound.play();
 			    	let blocks = [L, L1, S, S1, T, I, SQ];
 			    	let val = board.toggleHold(block);
 			    	block.remove();
@@ -184,19 +162,10 @@
 			    	board.ableHold = true;
 			    	//Updating board array.
 				    board.updateArr(block.coords, block.colour);
-			    	let sound = new Audio('music/place.mp3');
-			    	sound.play();
+	
 			    	//Checking for line clear.
 			    	let arrs = board.checkArr();
 			    	if(arrs) {
-			    		if(arrs.length >= 4) {
-			    			let sound = new Audio('music/tetris.mp3');
-			    			sound.play();
-			    		}
-			    		else {
-			    			let sound = new Audio('music/line.mp3');
-			    			sound.play();
-			    		};
 			    		//Shifting the array
 			    		board.shiftArr(arrs);
 			    		//Clearing the board.
