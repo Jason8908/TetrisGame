@@ -289,8 +289,6 @@ class L{
 		return true;
 	}
 	left() {
-		let sound = new Audio('music/move.mp3');
-		sound.play();
 		let x = this.coords.map(x => x[1]);
 		if(x.includes(0) || !this.active) return false;
 		if(!this.checkLeft()) return false;
@@ -303,8 +301,6 @@ class L{
 		return true;
 	}
 	right() {
-		let sound = new Audio('music/move.mp3');
-		sound.play();
 		let x = this.coords.map(x => x[1]);
 		if(x.includes(9) || !this.active) return false;
 		if(!this.checkRight()) return false;
@@ -396,8 +392,6 @@ class L{
 		return true;
 	}
 	rRight() {
-		let sound = new Audio('music/rotate.mp3');
-		sound.play()
 		switch(this.rotation) {
 			case 1:
 				this.remove();
@@ -587,8 +581,6 @@ class L1{
 		return true;
 	}
 	left() {
-		let sound = new Audio('music/move.mp3');
-		sound.play();
 		let x = this.coords.map(x => x[1]);
 		if(x.includes(0) || !this.active) return false;
 		if(!this.checkLeft()) return false;
@@ -601,8 +593,6 @@ class L1{
 		return true;
 	}
 	right() {
-		let sound = new Audio('music/move.mp3');
-		sound.play();
 		let x = this.coords.map(x => x[1]);
 		if(x.includes(9) || !this.active) return false;
 		if(!this.checkRight()) return false;
@@ -694,8 +684,6 @@ class L1{
 		return true;
 	}
 	rRight() {
-		let sound = new Audio('music/rotate.mp3');
-		sound.play()
 		switch(this.rotation) {
 			case 1:
 				this.remove();
@@ -890,8 +878,6 @@ class I{
 		return true;
 	}
 	left() {
-		let sound = new Audio('music/move.mp3');
-		sound.play();
 		let x = this.coords.map(x => x[1]);
 		if(x.includes(0) || !this.active) return false;
 		if(!this.checkLeft()) return false;
@@ -904,8 +890,6 @@ class I{
 		return true;
 	}
 	right() {
-		let sound = new Audio('music/move.mp3');
-		sound.play();
 		let x = this.coords.map(x => x[1]);
 		if(x.includes(9) || !this.active) return false;
 		if(!this.checkRight()) return false;
@@ -996,8 +980,6 @@ class I{
 		return true;
 	}
 	rRight() {
-		let sound = new Audio('music/rotate.mp3');
-		sound.play()
 		switch(this.rotation) {
 			case 1:
 				this.remove();
@@ -1241,8 +1223,6 @@ class SQ{
 		return true;
 	}
 	left() {
-		let sound = new Audio('music/move.mp3');
-		sound.play();
 		let x = this.coords.map(x => x[1]);
 		if(x.includes(0) || !this.active) return false;
 		if(!this.checkLeft()) return false;
@@ -1255,8 +1235,6 @@ class SQ{
 		return true;
 	}
 	right() {
-		let sound = new Audio('music/move.mp3');
-		sound.play();
 		let x = this.coords.map(x => x[1]);
 		if(x.includes(9) || !this.active) return false;
 		if(!this.checkRight()) return false;
@@ -1348,8 +1326,6 @@ class SQ{
 		return true;
 	}
 	rRight() {
-		let sound = new Audio('music/rotate.mp3');
-		sound.play()
 		//Placeholder
 	}
 }
@@ -1413,8 +1389,6 @@ class T{
 		return true;
 	}
 	left() {
-		let sound = new Audio('music/move.mp3');
-		sound.play();
 		let x = this.coords.map(x => x[1]);
 		if(x.includes(0) || !this.active) return false;
 		if(!this.checkLeft()) return false;
@@ -1427,8 +1401,6 @@ class T{
 		return true;
 	}
 	right() {
-		let sound = new Audio('music/move.mp3');
-		sound.play();
 		let x = this.coords.map(x => x[1]);
 		if(x.includes(9) || !this.active) return false;
 		if(!this.checkRight()) return false;
@@ -1520,8 +1492,6 @@ class T{
 		return true;
 	}
 	rRight() {
-		let sound = new Audio('music/rotate.mp3');
-		sound.play()
 		switch(this.rotation) {
 			case 1:
 				this.remove();
@@ -1764,8 +1734,6 @@ class S{
 		return true;
 	}
 	left() {
-		let sound = new Audio('music/move.mp3');
-		sound.play();
 		let x = this.coords.map(x => x[1]);
 		if(x.includes(0) || !this.active) return false;
 		if(!this.checkLeft()) return false;
@@ -1778,8 +1746,6 @@ class S{
 		return true;
 	}
 	right() {
-		let sound = new Audio('music/move.mp3');
-		sound.play();
 		let x = this.coords.map(x => x[1]);
 		if(x.includes(9) || !this.active) return false;
 		if(!this.checkRight()) return false;
@@ -1871,8 +1837,6 @@ class S{
 		return true;
 	}
 	rRight() {
-		let sound = new Audio('music/rotate.mp3');
-		sound.play()
 		switch(this.rotation) {
 			case 1:
 				this.remove();
@@ -2111,8 +2075,6 @@ class S1{
 		return true;
 	}
 	left() {
-		let sound = new Audio('music/move.mp3');
-		sound.play();
 		let x = this.coords.map(x => x[1]);
 		if(x.includes(0) || !this.active) return false;
 		if(!this.checkLeft()) return false;
@@ -2125,8 +2087,6 @@ class S1{
 		return true;
 	}
 	right() {
-		let sound = new Audio('music/move.mp3');
-		sound.play();
 		let x = this.coords.map(x => x[1]);
 		if(x.includes(9) || !this.active) return false;
 		if(!this.checkRight()) return false;
@@ -2218,8 +2178,6 @@ class S1{
 		return true;
 	}
 	rRight() {
-		let sound = new Audio('music/rotate.mp3');
-		sound.play()
 		switch(this.rotation) {
 			case 1:
 				this.remove();
