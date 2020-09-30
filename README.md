@@ -3,7 +3,7 @@ This project was finished under 24 hours over the span of five days. As the titl
 ![](https://i.imgur.com/aaKcKVd.png)
 ## What it Looks Like
 The game has a dark background with text on the left and right sides of the board displaying "Hold" and "0" for the block held as well as the score respectively. On the right side, there is also a queue that displays what block will come next in the order of blocks. 
-![](https://i.imgur.com/cfVfXz7.png)
+![](https://i.imgur.com/i9RMFQW.png)
 # How it was Made
 The entire Tetris board is comprised of a table with 20 rows and 10 columns. Each individual block has its own class which stores an array of all the coordinates of said block along with a number of useful methods in moving and rotating the block. The block is moved by changing settings for each individual portion of the entire block (each square) such as its coordinates, which are then used to change the class of the td cell as well as move the block down visually by changing the cell's background colour (I'm Canadian). Once we have that down, all that was left to do was to create an array to store the blocks in the queue, create a variable under the board class to store the held block, and store coordinates of the ghost block at the bottom within the instance of the block as well.
 ## Try it Out!
