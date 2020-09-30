@@ -1,5 +1,5 @@
-let boardColour = '#F2F2F2';
-let gColour = '#E1E1E1';
+let boardColour = '#B9B9B9';
+let gColour = 'grey';
 
 class Board {
 	constructor(width, height) {
@@ -89,7 +89,6 @@ class Board {
 			if(!(this.boardArr[i].includes(0))) out.push(i);
 		};
 		out = (out.length < 1 ? false:out);
-		console.log(this.boardArr);
 		return out;
 	}
 	clear() {
