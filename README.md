@@ -8,7 +8,7 @@ The game has a dark background with text on the left and right sides of the boar
 # How it was Made
 The entire Tetris board is comprised of a table with 20 rows and 10 columns. Each individual block has its own class which stores an array of all the coordinates of said block along with a number of useful methods in moving and rotating the block. The block is moved by changing settings for each individual portion of the entire block (each square) such as its coordinates, which are then used to change the class of the td cell as well as move the block down visually by changing the cell's background colour (I'm Canadian). Once we have that down, all that was left to do was to create an array to store the blocks in the queue, create a variable under the board class to store the held block, and store coordinates of the ghost block at the bottom within the instance of the block as well.
 ## Try it Out!
-https://tetris.jason8908.repl.co ![](https://img.shields.io/website?down_color=lightgrey&down_message=offline&up_color=green&up_message=online&url=https%3A%2F%2Ftetris.jason8908.repl.co)
+https://jasonsu.org/projects/tetris/
 If the website is down, download the latest version's source code and run the HTML file...
 ## Copyright and License
 Copyright (c) 2020 Jason Su. Developed with jQuery and pure javascript. All music used in this project is Royalty Free. This project is licensed under the terms of the MIT License. Please see the LICENSE file for full reference.
